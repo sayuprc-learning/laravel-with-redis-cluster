@@ -14,6 +14,7 @@ return ECSConfig::configure()
         __DIR__ . '/public',
         __DIR__ . '/routes',
         __DIR__ . '/tests',
+        __DIR__ . '/packages',
         __DIR__ . '/artisan',
     ])
     ->withRootFiles()

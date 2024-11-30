@@ -141,6 +141,19 @@ return [
                 },
                 explode(',', env('REDIS_HOSTS', '')),
             ),
+            'cache' => array_map(
+                function (string $item): array {
+                    $item = explode(':', $item);
+
+                    return [
+                        'host' => $item[0],
+                        'port' => $item[1],
+                        'password' => $item[2],
+                        'database' => 0,
+                    ];
+                },
+                explode(',', env('REDIS_HOSTS', '')),
+            ),
         ],
     ],
 ];

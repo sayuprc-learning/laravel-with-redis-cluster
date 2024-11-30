@@ -6,7 +6,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use Illuminate\Contracts\Session\Session;
+use Auth\UseCase\Authenticate\AuthenticateRequest;
+use Auth\UseCase\Authenticate\AuthenticateUseCaseInterface;
+use Auth\UseCase\GenerateToken\GenerateTokenRequest;
+use Auth\UseCase\GenerateToken\GenerateTokenUseCaseInterface;
 use Illuminate\Contracts\View\View;
 
 class LoginController extends Controller
@@ -16,14 +19,27 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    public function handle(LoginRequest $request, Session $session)
-    {
-        $before = $session->getId();
+    /**
+     * @return array{before: string, after: string}
+     */
+    public function handle(
+        LoginRequest $request,
+        AuthenticateUseCaseInterface $authenticateInteractor,
+        GenerateTokenUseCaseInterface $generateTokenInteractor,
+    ): array {
+        $before = $request->session()->getId();
+        $email = $request->validated('email', '');
+        assert(is_string($email));
 
-        $session->regenerate();
+        $authenticateResponse = $authenticateInteractor->handle(new AuthenticateRequest($email));
 
-        $after = $session->getId();
+        $generateTokenResponse = $generateTokenInteractor->handle(
+            new GenerateTokenRequest($authenticateResponse->sessionToken)
+        );
 
-        return ['before' => $before, 'after' => $after];
+        return [
+            'before' => $before,
+            'after' => $generateTokenResponse->token,
+        ];
     }
 }

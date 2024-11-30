@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Providers\SessionServiceProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 use App\Providers\AppServiceProvider;
@@ -169,6 +170,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         EventServiceProvider::class,
         RouteServiceProvider::class,
+        SessionServiceProvider::class,
     ])->toArray(),
 
     /*

@@ -32,6 +32,10 @@ php: ## Enter php container
 ecs-fix: ## Execute ecs --fix
 	docker compose exec php composer ecs-fix
 
+.PHONY: phpstan
+phpstan: ## Execute phpstan analyse
+	docker compose exec php composer phpstan
+
 .PHONY: help
 help: ## Display a list of targets
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
