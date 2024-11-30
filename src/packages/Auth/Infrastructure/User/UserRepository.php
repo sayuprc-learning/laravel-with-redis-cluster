@@ -11,6 +11,9 @@ use Auth\Domain\User\UserRepositoryInterface;
 
 class UserRepository implements UserRepositoryInterface
 {
+    /**
+     * Eloquent を利用して DB にアクセスしている
+     */
     public function findByEmail(Email $email): ?User
     {
         $found = \App\Models\User::query()->where('email', $email)->first();

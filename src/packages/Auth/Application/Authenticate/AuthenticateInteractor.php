@@ -20,6 +20,12 @@ class AuthenticateInteractor implements AuthenticateUseCaseInterface
     ) {
     }
 
+    /**
+     * メールアドレスからユーザーを取得しセッションを再生成する
+     * 再生成したセッション ID を返す
+     *
+     * @throws DomainNotFoundException
+     */
     public function handle(AuthenticateRequest $request): AuthenticateResponse
     {
         $found = $this->userRepository->findByEmail(new Email($request->email)) ?? throw new DomainNotFoundException();

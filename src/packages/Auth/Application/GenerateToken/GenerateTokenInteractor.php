@@ -15,8 +15,11 @@ class GenerateTokenInteractor implements GenerateTokenUseCaseInterface
     {
     }
 
+    /**
+     * 渡されたセッション ID からトークンを生成する
+     */
     public function handle(GenerateTokenRequest $request): GenerateTokenResponse
     {
-        return new GenerateTokenResponse($this->tokenGenerator->generate($request->sessionToken));
+        return new GenerateTokenResponse($this->tokenGenerator->generate($request->sessionId));
     }
 }

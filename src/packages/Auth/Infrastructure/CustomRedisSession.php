@@ -7,6 +7,9 @@ namespace Auth\Infrastructure;
 use RedisCluster;
 use SessionHandlerInterface;
 
+/**
+ * Laravel のカスタムセッションハンドラー
+ */
 class CustomRedisSession implements SessionHandlerInterface
 {
     public function __construct(
@@ -33,6 +36,9 @@ class CustomRedisSession implements SessionHandlerInterface
 
     public function write(string $id, string $data): bool
     {
+        // トランザクションを張っている
+        // トランザクションを利用している場合、保存先のノードが固定化されるので Cluster の恩恵を受けれない
+        // トランザクションをとるか、分散性をとるかは各要件に応じて検討する
         $this->redisCluster->multi();
         $this->redisCluster->setex($this->getKey($id), 360, $data);
         $this->redisCluster->sAdd('tag:{session}', $id);
@@ -43,6 +49,9 @@ class CustomRedisSession implements SessionHandlerInterface
 
     public function destroy(string $id): bool
     {
+        // トランザクションを張っている
+        // トランザクションを利用している場合、保存先のノードが固定化されるので Cluster の恩恵を受けれない
+        // トランザクションをとるか、分散性をとるかは各要件に応じて検討する
         $this->redisCluster->multi();
         $this->redisCluster->del($this->getKey($id));
         $this->redisCluster->sRem('tag:{session}', $id);

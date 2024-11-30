@@ -16,7 +16,7 @@ use RedisCluster;
 class SessionServiceProvider extends ServiceProvider
 {
     /**
-     * Register services.
+     * セッションに関するクラスの設定を行う
      */
     public function register(): void
     {
@@ -24,7 +24,7 @@ class SessionServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bootstrap services.
+     * セッションドライバーを独自のものに置き換える
      */
     public function boot(): void
     {

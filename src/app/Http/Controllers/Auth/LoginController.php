@@ -14,12 +14,18 @@ use Illuminate\Contracts\View\View;
 
 class LoginController extends Controller
 {
+    /**
+     * ログインフォームを表示する
+     */
     public function showForm(): View
     {
         return view('auth.login');
     }
 
     /**
+     * メールアドレスでユーザーを認証し、セッションを再生成する
+     * リクエスト時のセッション ID と再生成後のセッション ID を返す
+     *
      * @return array{before: string, after: string}
      */
     public function handle(

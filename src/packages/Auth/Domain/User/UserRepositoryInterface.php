@@ -6,5 +6,8 @@ namespace Auth\Domain\User;
 
 interface UserRepositoryInterface
 {
+    /**
+     * メールアドレスからユーザーを取得する
+     */
     public function findByEmail(Email $email): ?User;
 }

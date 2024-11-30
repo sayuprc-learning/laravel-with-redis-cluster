@@ -11,6 +11,10 @@ use Auth\Domain\User\UserRepositoryInterface;
 
 class DebugUserRepository implements UserRepositoryInterface
 {
+    /**
+     * ダミー用の検索機能
+     * 確定でユーザー ID が 1 のユーザーを返す
+     */
     public function findByEmail(Email $email): ?User
     {
         return new User(new UserId(1), $email);

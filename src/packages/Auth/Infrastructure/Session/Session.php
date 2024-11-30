@@ -7,6 +7,9 @@ namespace Auth\Infrastructure\Session;
 use Auth\Domain\Session\SessionInterface;
 use Illuminate\Contracts\Session\Session as SessionContract;
 
+/**
+ * 各メソッドは Illuminate\Contracts\Session\Session に処理を移譲している
+ */
 class Session implements SessionInterface
 {
     public function __construct(private readonly SessionContract $session)
@@ -20,8 +23,8 @@ class Session implements SessionInterface
 
     public function regenerate(int $id): void
     {
-        $this->session->regenerate(true);
         $this->session->put('login', $id);
         $this->session->migrate(true);
+        $this->session->regenerate();
     }
 }
