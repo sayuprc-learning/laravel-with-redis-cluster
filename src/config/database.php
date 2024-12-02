@@ -128,19 +128,14 @@ return [
         ],
 
         'clusters' => [
-            'default' => array_map(
-                function (string $item): array {
-                    $item = explode(':', $item);
-
-                    return [
-                        'host' => $item[0],
-                        'port' => $item[1],
-                        'password' => $item[2],
-                        'database' => 0,
-                    ];
-                },
-                explode(',', env('REDIS_HOSTS', '')),
-            ),
+            'default' => [
+                [
+                    'host' => env('REDIS_HOST', '127.0.0.1'),
+                    'port' => env('REDIS_PORT', 6379),
+                    'password' => env('REDIS_PASSWORD'),
+                    'database' => 0,
+                ],
+            ],
         ],
     ],
 ];
